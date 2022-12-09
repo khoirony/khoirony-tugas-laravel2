@@ -1,0 +1,15 @@
+    @extends('parent')
+
+    @section("content")
+        @include("component.navbar")
+        @include("component.hero")
+        @include("component.costumer")
+        @include("component.work-title")
+        @include("component.work")
+        @include("component.analysis")
+        @include("component.grafik")
+        @include("component.pricing")
+        @include("component.testimonial")
+        @include("component.free-trial")
+        @include("component.footer")
+    @endsection
