@@ -21,7 +21,7 @@ class ProdukSeeder extends Seeder
             "deskripsi_produk" => "Kaos Polos Kuning",
             "stok_produk" => 24,
             "harga_produk" => 30000,
-            "gambar_produk" => "gambar_produk/kaos2.jpg"
+            "gambar_produk" => "/gambar_produk/kaos2.jpg"
         ]);
     }
 }
