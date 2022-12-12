@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('id_kategori');
             $table->string('thumbnail', 255)->nullable();
             $table->timestamps();
+            
             $table->foreign('id_kategori')->references('id')->on('kategoris');
         });
     }

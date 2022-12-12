@@ -6,79 +6,94 @@ use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $blog   = blog::paginate(10);
+
+        return view('blog.index', [
+            'title' => 'List blog',
+            'blog' => $blog,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view("blog.create",['title' => 'tambah blog']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
-    {
-        //
+    {   
+        $file = $request->file("gambar_blog");
+        $filename = $file->hashName();
+        $file->move("gambar_blog", $filename);
+        $path = "/gambar_blog/" . $filename;
+
+        $blog = new blog;
+        $blog->nama_blog = $request->input('nama_blog');
+        $blog->deskripsi_blog = $request->input('deskripsi_blog');
+        $blog->harga_blog = $request->input('harga_blog');
+        $blog->stok_blog = $request->input('stok_blog');
+        $blog->gambar_blog = $path;
+        $blog->save();
+
+        return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Halaman Detail Salah Satu Data
     public function show($id)
     {
-        //
+        $blog = blog::query()
+            ->where("id", $id)
+            ->first();
+
+        return view("blog.show", [
+            'title' => 'Detail blog',
+            'blog' => $blog,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Halaman Mengedit Salah Satu Data
     public function edit($id)
     {
-        //
+        $blog = blog::query()
+            ->where("id", $id)
+            ->first();
+
+        return view("blog.edit", [
+            'title' => 'Edit blog',
+            'blog' => $blog,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Fungsi Mengubah data PG
     public function update(Request $request, $id)
     {
-        //
+        $blog = blog::find($id);
+        $blog->nama_blog = $request->input('nama_blog');
+        $blog->deskripsi_blog = $request->input('deskripsi_blog');
+        $blog->harga_blog = $request->input('harga_blog');
+        $blog->stok_blog = $request->input('stok_blog');
+        
+        // ngecek input gambar
+        if($request->file("gambar_blog")){
+            $file = $request->file("gambar_blog");
+            $filename = $file->hashName();
+            $file->move("gambar_blog", $filename);
+            $path = "/gambar_blog/" . $filename;
+
+            // masukkan nama file ke kolom gambar blog
+            $blog->gambar_blog = $path;
+        }
+        $blog->update();
+        return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // Fungsi Menghapus data
     public function destroy($id)
     {
-        //
+        $blog = blog::where('id', $id)->first();
+        unlink(public_path($blog['gambar_blog']));
+        $blog = blog::where('id', $id)->delete();
+        return redirect()->back();
     }
 }

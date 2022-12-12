@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use App\Models\Produk;
@@ -55,12 +56,12 @@ Route::prefix("produk")->name("produk.")->controller(ProdukController::class)->g
 
 // CRUD Kategori Blog
 Route::prefix("blog")->name("blog.")->controller(BlogController::class)->group(function(){
-    Route::get('/', 'index')->name("index");
-    Route::get('/create', 'create')->name("create");
-    Route::get('/detail/{id}', 'show')->name("detail");
-    Route::get('/edit/{id}', 'edit')->name("edit");
-    Route::get('/destroy/{id}', 'destroy')->name("destroy");
+    Route::get('/', 'index')->name("index")->middleware(["withAuth"]);
+    Route::get('/create', 'create')->name("create")->middleware(["withAuth"]);
+    Route::get('/detail/{id}', 'show')->name("detail")->middleware(["withAuth"]);
+    Route::get('/edit/{id}', 'edit')->name("edit")->middleware(["withAuth"]);
+    Route::get('/destroy/{id}', 'destroy')->name("destroy")->middleware(["withAuth"]);
 
-    Route::post('/store', 'store')->name("store");
-    Route::post('/update/{id}', 'update')->name("update");
+    Route::post('/store', 'store')->name("store")->middleware(["withAuth"]);
+    Route::post('/update/{id}', 'update')->name("update")->middleware(["withAuth"]);
 });
