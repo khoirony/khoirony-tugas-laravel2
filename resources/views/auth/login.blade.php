@@ -5,9 +5,9 @@
     <div class="card col-6 shadow p-5">
         <h1 class="text-center">Login</h1> <br>
         @if($errors->any())
-            <h1 style="color: red">
+            <p style="color: red">
                 {{ $errors->first() }}
-            </h1>
+            </p>
         @endif
         
         <form action="" method="post">
