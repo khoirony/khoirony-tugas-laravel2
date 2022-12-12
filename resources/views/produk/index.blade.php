@@ -3,7 +3,6 @@
     @section("content")
     <br>
     <a href="{{ route('produk.create') }}" class="btn btn-primary">Tambah produk</a>
-    <a href="{{ route('user.index') }}" class="btn btn-success">Kelola User</a>
     
     <br>
 

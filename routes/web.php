@@ -34,8 +34,6 @@ Route::prefix("produk")->name("produk.")->controller(ProdukController::class)->g
     Route::post('/update/{id}', 'update')->name("update");
 });
 
-// Tugas Laravel 2
-
 // CRUD Kategori Blog
 Route::prefix("blog")->name("blog.")->controller(BlogController::class)->group(function(){
     Route::get('/', 'index')->name("index");
