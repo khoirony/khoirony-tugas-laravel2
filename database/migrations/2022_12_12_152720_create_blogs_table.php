@@ -18,10 +18,12 @@ return new class extends Migration
             $table->string('judul', 255);
             $table->text('konten');
             $table->integer('id_kategori');
+            $table->integer('id_penulis');
             $table->string('thumbnail', 255)->nullable();
             $table->timestamps();
             
             $table->foreign('id_kategori')->references('id')->on('kategoris');
+            $table->foreign('id_penulis')->references('id')->on('penggunas');
         });
     }
 

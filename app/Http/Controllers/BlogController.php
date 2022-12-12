@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Kategori;
 use App\Models\Blog;
+use Session;
 
 class BlogController extends Controller
 {
@@ -37,6 +38,7 @@ class BlogController extends Controller
         $blog = new blog;
         $blog->judul = $request->input('judul');
         $blog->id_kategori = $request->input('id_kategori');
+        $blog->id_penulis = Session::get('id');
         $blog->konten = $request->input('konten');
         $blog->thumbnail = $path;
         $blog->save();

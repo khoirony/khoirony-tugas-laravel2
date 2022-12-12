@@ -19,6 +19,7 @@ class BlogSeeder extends Seeder
         Blog::query()->create([
             "judul" => "Raffi Ahmad dan Istri Ridwan Kamil Masuk Bursa Cawalkot Bandung 2024",
             "id_kategori" => 1,
+            "id_penulis" => 1,
             "konten" => "Jakarta - Lembaga survei Indonesian Politics Reasearch and Consuling (IPRC) merilis gambaran dukungan warga terkait Pemilihan Wali Kota (Pilwalkot) Bandung 2024. Hasilnya nama publik figur Raffi Ahmad yang masuk ke dalam bursa calon wali kota (cawalkot) versi survei IPRC. <br>
             Dilansir detikJabar, Senin (12/12/2022), IPRC membagi pertanyaan dengan simulasi terbuka mengenai pilihan publik terkait Pilwalkot Bandung 2024, dalam surveinya. Survei ini digelar dengan 800 responden di 30 kecamatan di Kota Bandung pada 20-28 November 2022, dengan metode multistage random sampling, dengan margin of error ± 3,5% pada tingkat kepercayaan 95%.
             <br><br>

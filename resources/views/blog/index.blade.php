@@ -27,7 +27,7 @@
                     {{$b->judul}}
                 </td>
                 <td>
-                    {!!substr($b->konten,0,200)!!}
+                    {!!substr($b->konten,0,200)!!}. . . Bersambung
                 </td>
                 <td>
                     {{$b->kategori->nama_kategori}}

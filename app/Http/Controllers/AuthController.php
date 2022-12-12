@@ -40,6 +40,7 @@ class AuthController extends Controller
         if(!session()->isStarted()) session()->start();
         session()->put("logged", true);
         session()->put("id", $pengguna->id);
+        session()->put("nama", $pengguna->nama);
         return redirect()->route("produk.index");
     }
 

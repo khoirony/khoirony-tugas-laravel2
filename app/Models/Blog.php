@@ -14,4 +14,8 @@ class Blog extends Model
     {
         return $this->belongsTo('App\Models\Kategori', 'id_kategori');
     }
+    public function penulis()
+    {
+        return $this->belongsTo('App\Models\Pengguna', 'id_penulis');
+    }
 }

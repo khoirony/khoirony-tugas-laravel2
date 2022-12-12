@@ -13,6 +13,11 @@ class Pengguna extends Model
     public $guarded = ["id"];
     protected $table = "penggunas";
 
+    public function blog()
+    {
+        return $this->hasMany('App\Models\Pengguna', 'id_penulis');
+    }
+
     protected static function boot()
     {
         parent::boot();    //menjalankan fungsi static
