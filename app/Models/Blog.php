@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Sekolah extends Model
+class Blog extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-    public function user()
+    public function kategori()
     {
-        return $this->hasOne('App\Models\User', 'id_sekolah');
+        return $this->hasMany('App\Models\Kategori', 'id_kategori');
     }
 }
