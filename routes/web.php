@@ -1,11 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LandingController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\SekolahController;
 use App\Http\Controllers\ProdukController;
-
+use App\Http\Controllers\AuthController;
+use Illuminate\Http\Request;
+use App\Models\Produk;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,19 +18,39 @@ use App\Http\Controllers\ProdukController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $produk   = Produk::paginate(10);
+
+    return view('welcome', [
+        'title' => 'List produk',
+        'produk' => $produk,
+    ]);
 })->name("welcome");
+
+Route::post("/", [ProdukController::class, "cari"])->name("cari");
+
+Route::get('/detail/{id}', function ($id) {
+    $produk   = Produk::find($id);
+
+    return view('produk.show', [
+        'title' => 'List produk',
+        'produk' => $produk,
+    ]);
+})->name("detail-produk");
+
+// Authentication
+Route::any("/login", [AuthController::class, "login"])->name("login")->middleware(["noAuth"]);
+Route::any("/logout", [AuthController::class, "logout"])->name("logout")->middleware(["withAuth"]);
 
 // CRUD PRODUCT
 Route::prefix("produk")->name("produk.")->controller(ProdukController::class)->group(function(){
-    Route::get('/', 'index')->name("index");
-    Route::get('/create', 'create')->name("create");
-    Route::get('/detail/{id}', 'show')->name("detail");
-    Route::get('/edit/{id}', 'edit')->name("edit");
-    Route::get('/destroy/{id}', 'destroy')->name("destroy");
+    Route::get('/', 'index')->name("index")->middleware(["withAuth"]);
+    Route::get('/create', 'create')->name("create")->middleware(["withAuth"]);
+    Route::get('/detail/{id}', 'show')->name("detail")->middleware(["withAuth"]);
+    Route::get('/edit/{id}', 'edit')->name("edit")->middleware(["withAuth"]);
+    Route::get('/destroy/{id}', 'destroy')->name("destroy")->middleware(["withAuth"]);
 
-    Route::post('/store', 'store')->name("store");
-    Route::post('/update/{id}', 'update')->name("update");
+    Route::post('/store', 'store')->name("store")->middleware(["withAuth"]);
+    Route::post('/update/{id}', 'update')->name("update")->middleware(["withAuth"]);
 });
 
 // CRUD Kategori Blog

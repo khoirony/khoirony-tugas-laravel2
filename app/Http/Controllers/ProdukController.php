@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Auth;
+
 
 class ProdukController extends Controller
 {
@@ -95,5 +97,17 @@ class ProdukController extends Controller
         unlink(public_path($produk['gambar_produk']));
         $produk = Produk::where('id', $id)->delete();
         return redirect()->back();
+    }
+
+    public function cari(Request $request)
+    {
+
+        $cari = ucfirst($request->cari);
+        $produk = Produk::where('nama_produk','LIKE','%'.$cari.'%')->get();
+
+        return view('welcome', [
+            'title' => 'List produk',
+            'produk' => $produk,
+        ]);
     }
 }

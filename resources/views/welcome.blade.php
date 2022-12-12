@@ -2,14 +2,18 @@
 
     @section("content")
     <br>
-        @foreach ($produk as $p)
-        <div class="card" style="width: 18rem;">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+        <div class="row">
+            @foreach ($produk as $p)
+            <div class="col-4 p-3">
+                <div class="card">
+                    <img src="{{$p->gambar_produk}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{$p->nama_produk}} </h5>
+                        <p class="card-text text-danger">Rp. {{$p->harga_produk}},-</p>
+                        <a href="{{route('detail-produk',$p->id)}}" class="btn btn-primary me-2">Detail Produk</a>
+                    </div>
+                </div>
             </div>
+            @endforeach
         </div>
-        @endforeach
     @endsection
