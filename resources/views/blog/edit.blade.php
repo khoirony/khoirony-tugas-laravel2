@@ -2,31 +2,35 @@
 
     @section("content")
     <br>
-    <a href="{{ route('produk.index') }}" class="btn btn-danger">Kembali</a>
+    <a href="{{ route('blog.index') }}" class="btn btn-danger">Kembali</a>
 
-    <form action="{{ route('produk.update', $produk->id) }}" method="post" enctype="multipart/form-data" class="shadow rounded p-5 mt-3 mb-5">
+    <form action="{{ route('blog.update', $blog->id) }}" 
+        method="post" 
+        enctype="multipart/form-data" 
+        class="shadow rounded p-5 mt-3 mb-5">
         @csrf 
 
         <div class="mb-3">
-            <label for="nama_produk" class="form-label">Nama Produk</label>
-            <input type="text" class="form-control" name="nama_produk" id="nama_produk" value="{{$produk->nama_produk}}">
+            <label for="judul" class="form-label">Judul</label>
+            <input type="text" class="form-control" name="judul" id="judul" value="{{ $blog->judul }}">
         </div>
         <div class="mb-3">
-            <label for="deskripsi_produk" class="form-label">Deskripsi Produk</label>
-            <textarea class="form-control" id="deskripsi_produk" name="deskripsi_produk" rows="3">{{$produk->deskripsi_produk}}</textarea>
+            <label for="id_kategori" class="form-label">Pilih Kategori</label>
+            <select class="form-select" id="id_kategori" name="id_kategori">
+                <option value="{{ $blog->id_kategori }}">{{ $blog->kategori->nama_kategori }}</option>
+                @foreach($kategori as $k)
+                <option value="{{ $k->id }}">{{ $k->nama_kategori }}</option>
+                @endforeach
+            </select>
         </div>
         <div class="mb-3">
-            <label for="harga_produk" class="form-label">Harga Produk</label>
-            <input type="text" class="form-control" name="harga_produk" id="harga_produk" value="{{$produk->harga_produk}}">
+            <label for="konten" class="form-label">Isi Konten</label>
+            <textarea class="form-control" id="konten" name="konten" rows="3">{{$blog->konten}}</textarea>
         </div>
         <div class="mb-3">
-            <label for="stok_produk" class="form-label">Stok Produk</label>
-            <input type="text" class="form-control" name="stok_produk" id="stok_produk" value="{{$produk->stok_produk}}">
+            <label for="thumbnail" class="form-label">Thumbnail</label>
+            <input class="form-control" type="file" id="thumbnail" name="thumbnail">
         </div>
-        <div class="mb-3">
-            <label for="gambar_produk" class="form-label">Gambar</label>
-            <input class="form-control" type="file" id="gambar_produk" name="gambar_produk">
-        </div>
-        <button type="submit" class="btn btn-primary">Tambah Produk</button>
+        <button type="submit" class="btn btn-primary">Edit Tulisan</button>
     </form>
     @endsection

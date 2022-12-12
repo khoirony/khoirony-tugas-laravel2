@@ -20,22 +20,25 @@ class BlogController extends Controller
 
     public function create()
     {
-        return view("blog.create",['title' => 'tambah blog']);
+        $kategori   = kategori::all();
+        return view("blog.create",[
+            'title' => 'tambah blog',
+            'kategori' => $kategori
+        ]);
     }
 
     public function store(Request $request)
     {   
-        $file = $request->file("gambar_blog");
+        $file = $request->file("thumbnail");
         $filename = $file->hashName();
-        $file->move("gambar_blog", $filename);
-        $path = "/gambar_blog/" . $filename;
+        $file->move("thumbnail", $filename);
+        $path = "/thumbnail/" . $filename;
 
         $blog = new blog;
-        $blog->nama_blog = $request->input('nama_blog');
-        $blog->deskripsi_blog = $request->input('deskripsi_blog');
-        $blog->harga_blog = $request->input('harga_blog');
-        $blog->stok_blog = $request->input('stok_blog');
-        $blog->gambar_blog = $path;
+        $blog->judul = $request->input('judul');
+        $blog->id_kategori = $request->input('id_kategori');
+        $blog->konten = $request->input('konten');
+        $blog->thumbnail = $path;
         $blog->save();
 
         return redirect()->back();
@@ -44,12 +47,10 @@ class BlogController extends Controller
     // Halaman Detail Salah Satu Data
     public function show($id)
     {
-        $blog = blog::query()
-            ->where("id", $id)
-            ->first();
+        $blog = blog::find($id);
 
         return view("blog.show", [
-            'title' => 'Detail blog',
+            'title' => $blog->judul,
             'blog' => $blog,
         ]);
     }
@@ -57,13 +58,13 @@ class BlogController extends Controller
     // Halaman Mengedit Salah Satu Data
     public function edit($id)
     {
-        $blog = blog::query()
-            ->where("id", $id)
-            ->first();
+        $blog = blog::find($id);
+        $kategori   = kategori::all();
 
         return view("blog.edit", [
             'title' => 'Edit blog',
             'blog' => $blog,
+            'kategori' => $kategori
         ]);
     }
 
@@ -71,20 +72,19 @@ class BlogController extends Controller
     public function update(Request $request, $id)
     {
         $blog = blog::find($id);
-        $blog->nama_blog = $request->input('nama_blog');
-        $blog->deskripsi_blog = $request->input('deskripsi_blog');
-        $blog->harga_blog = $request->input('harga_blog');
-        $blog->stok_blog = $request->input('stok_blog');
+        $blog->judul = $request->input('judul');
+        $blog->konten = $request->input('konten');
+        $blog->id_kategori = $request->input('id_kategori');
         
         // ngecek input gambar
-        if($request->file("gambar_blog")){
-            $file = $request->file("gambar_blog");
+        if($request->file("thumbnail")){
+            $file = $request->file("thumbnail");
             $filename = $file->hashName();
-            $file->move("gambar_blog", $filename);
-            $path = "/gambar_blog/" . $filename;
+            $file->move("thumbnail", $filename);
+            $path = "/thumbnail/" . $filename;
 
             // masukkan nama file ke kolom gambar blog
-            $blog->gambar_blog = $path;
+            $blog->thumbnail = $path;
         }
         $blog->update();
         return redirect()->back();
@@ -94,7 +94,7 @@ class BlogController extends Controller
     public function destroy($id)
     {
         $blog = blog::where('id', $id)->first();
-        unlink(public_path($blog['gambar_blog']));
+        unlink(public_path($blog['thumbnail']));
         $blog = blog::where('id', $id)->delete();
         return redirect()->back();
     }

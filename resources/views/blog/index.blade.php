@@ -27,14 +27,14 @@
                     {{$b->judul}}
                 </td>
                 <td>
-                    {{$b->konten}}
+                    {!!substr($b->konten,0,200)!!}
                 </td>
                 <td>
-                    {{$b->id_kategori}}
+                    {{$b->kategori->nama_kategori}}
                 </td>
-                <td width="17%">
-                    <a href="{{route('blog.detail',$b->id)}}" class="btn btn-primary me-2">Detail</a>
-                    <a href="{{route('blog.destroy',$b->id)}}" class="btn btn-danger">Delete</a>
+                <td class="text-center" width="12%">
+                    <a href="{{route('blog.detail',$b->id)}}" class="btn btn-primary me-2"><i class="fas fa-eye"></i></a>
+                    <a href="{{route('blog.destroy',$b->id)}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
             @endforeach

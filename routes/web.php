@@ -6,6 +6,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use App\Models\Produk;
+use App\Models\Blog;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ use App\Models\Produk;
 |
 */
 
+// Halaman Depan Produk
 Route::get('/', function () {
     $produk   = Produk::paginate(10);
 
@@ -27,16 +29,34 @@ Route::get('/', function () {
     ]);
 })->name("welcome");
 
-Route::post("/", [ProdukController::class, "cari"])->name("cari");
+// Hasil Pencarian
+Route::post("/", function (Request $request) {
+    $cari = ucfirst($request->cari);
+    if($request->pilihan == 'produk'){
+        $produk = Produk::where('nama_produk','LIKE','%'.$cari.'%')->get();
+        return view('welcome', [
+            'title' => 'List produk',
+            'produk' => $produk,
+        ]);
+    }else{
+        $blog = blog::where('judul','LIKE','%'.$cari.'%')->get();
+        return view('blog', [
+            'title' => 'List blog',
+            'blog' => $blog,
+        ]);
+    }
 
-Route::get('/detail/{id}', function ($id) {
-    $produk   = Produk::find($id);
+})->name("cari");
 
-    return view('produk.show', [
-        'title' => 'List produk',
-        'produk' => $produk,
+// Halaman Depan Blog
+Route::get('/blogger', function () {
+    $blog   = blog::paginate(10);
+
+    return view('blog', [
+        'title' => 'List blog',
+        'blog' => $blog,
     ]);
-})->name("detail-produk");
+})->name("blog");
 
 // Authentication
 Route::any("/login", [AuthController::class, "login"])->name("login")->middleware(["noAuth"]);
@@ -46,7 +66,7 @@ Route::any("/logout", [AuthController::class, "logout"])->name("logout")->middle
 Route::prefix("produk")->name("produk.")->controller(ProdukController::class)->group(function(){
     Route::get('/', 'index')->name("index")->middleware(["withAuth"]);
     Route::get('/create', 'create')->name("create")->middleware(["withAuth"]);
-    Route::get('/detail/{id}', 'show')->name("detail")->middleware(["withAuth"]);
+    Route::get('/detail/{id}', 'show')->name("detail");
     Route::get('/edit/{id}', 'edit')->name("edit")->middleware(["withAuth"]);
     Route::get('/destroy/{id}', 'destroy')->name("destroy")->middleware(["withAuth"]);
 
@@ -54,11 +74,11 @@ Route::prefix("produk")->name("produk.")->controller(ProdukController::class)->g
     Route::post('/update/{id}', 'update')->name("update")->middleware(["withAuth"]);
 });
 
-// CRUD Kategori Blog
+// CRUD BLOG
 Route::prefix("blog")->name("blog.")->controller(BlogController::class)->group(function(){
     Route::get('/', 'index')->name("index")->middleware(["withAuth"]);
     Route::get('/create', 'create')->name("create")->middleware(["withAuth"]);
-    Route::get('/detail/{id}', 'show')->name("detail")->middleware(["withAuth"]);
+    Route::get('/detail/{id}', 'show')->name("detail");
     Route::get('/edit/{id}', 'edit')->name("edit")->middleware(["withAuth"]);
     Route::get('/destroy/{id}', 'destroy')->name("destroy")->middleware(["withAuth"]);
 

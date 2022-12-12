@@ -10,7 +10,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{$p->nama_produk}} </h5>
                         <p class="card-text text-danger">Rp. {{$p->harga_produk}},-</p>
-                        <a href="{{route('detail-produk',$p->id)}}" class="btn btn-primary me-2">Detail Produk</a>
+                        <a href="{{route('produk.detail',$p->id)}}" class="btn btn-primary me-2">Detail Produk</a>
                     </div>
                 </div>
             </div>

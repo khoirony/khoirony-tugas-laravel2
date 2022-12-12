@@ -9,8 +9,9 @@ class Blog extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
     public function kategori()
     {
-        return $this->hasMany('App\Models\Kategori', 'id_kategori');
+        return $this->belongsTo('App\Models\Kategori', 'id_kategori');
     }
 }
