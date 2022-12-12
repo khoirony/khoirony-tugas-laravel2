@@ -18,9 +18,7 @@ use App\Http\Controllers\ProdukController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name("welcome");
+Route::get('/', [ProdukController::class, 'index'])->name("welcome");
 
 // CRUD PRODUCT
 Route::prefix("produk")->name("produk.")->controller(ProdukController::class)->group(function(){
